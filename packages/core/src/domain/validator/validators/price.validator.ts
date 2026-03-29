@@ -1,4 +1,5 @@
-import { type DiscountedPriceRequest, DiscountedPriceRequestSchema, type DiscountedPriceResponse, DiscountedPriceResponseSchema, type ValidateResult } from "./types.js"
+import { type DiscountedPriceRequest, DiscountedPriceRequestSchema, type DiscountedPriceResponse, DiscountedPriceResponseSchema } from "../types/price.types.js"
+import type { ValidateResult } from "./types.js";
 
 
 type ValidateDiscountedPriceRequestData =
