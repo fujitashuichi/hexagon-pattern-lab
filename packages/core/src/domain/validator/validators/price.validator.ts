@@ -1,11 +1,32 @@
-import { type DiscountedPriceRequest, DiscountedPriceRequestSchema, type DiscountedPriceResponse, DiscountedPriceResponseSchema } from "../types/price.types.js"
+import { type DiscountedPriceRequest, DiscountedPriceRequestSchema, type DiscountedPriceResponse, DiscountedPriceResponseSchema, type MonetaryAmount, MonetaryAmountSchema } from "../types/price.types.js"
 import type { ValidateResult } from "./types.js";
+
+
+export const validateMonetaryAmount = ({
+  amount, currency
+}: MonetaryAmount
+): ValidateResult<MonetaryAmount> => {
+  const parsed = MonetaryAmountSchema.safeParse({
+    amount, currency
+  });
+
+  if (!parsed.success) {
+    return {
+      ok: false,
+      error: parsed.error
+    }
+  }
+
+  return {
+    ok: true,
+    data: parsed.data
+  }
+}
 
 
 type ValidateDiscountedPriceRequestData =
   DiscountedPriceRequest
   & { discountedPrice: number }
-
 
 export const validateDiscountedPriceRequest = ({
   basePrice,
