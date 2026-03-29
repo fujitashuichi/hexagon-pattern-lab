@@ -1,4 +1,4 @@
-import { InventoryStateSchema, type InventoryState } from "../types/Inventory.types.js";
+import { InventoryStateSchema, type InventoryState } from "../types/inventory.types.js";
 import type { ValidateResult } from "./types.js";
 
 
