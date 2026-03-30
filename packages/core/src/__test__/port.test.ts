@@ -1,51 +1,109 @@
 import { beforeEach, describe, expect, it } from "vitest"
 import { ProductService } from "../application/service/product.service.js";
-import { dbAdaptorMock, mockDb } from "../__mock__/db.mock.js";
-import type { ApiResult } from "../port/types.js";
-import type { Product } from "../domain/modules/product.js";
+import { mockDb } from "../__mock__/db.mock.js";
+import type { ProductWithoutId } from "../port/types.js";
+import { productAdaptorMock } from "../__mock__/product.adaptor.mock.js";
+import { productPortOps } from "./tools/port.tool.js";
+
 
 describe("productPortのDB接続をテスト", () => {
   const db = mockDb;
-  const dbAdaptor = dbAdaptorMock;
+  const productAdaptor = productAdaptorMock;
+  const ops = productPortOps;
 
   beforeEach(() => {
-    db.length === 0;
+    db.reset();
   });
 
 
-  it("portはsave機能を提供する", async () => {
-    const service = new ProductService(dbAdaptor);
+  // create
 
-    const dto: Product = {
-      id: "550e8400-e29b-41d4-a716-446655440000",
-      priority: "P1",
-      status: "draft"
-    };
-    const requiredResult: ApiResult<Product> = {
-      ok: true,
-      data: dto
-    };
+  describe("productPort.create", () => {
+    it("正常系が動作する", async () => {
+      const service = new ProductService(productAdaptor);
+      // opsはテスト実行を含む
+      await ops.createProject(service);
+    });
 
-    await expect(service.save(dto))
-      .resolves
-      .toStrictEqual(requiredResult);
+    it("adaptorの失敗はハンドリングできる", async () => {
+      const service = new ProductService(productAdaptor);
+
+      const dto = { priority: "invalidData", status: "draft" };
+      await expect(service.create(dto as ProductWithoutId))
+        .resolves
+        .toStrictEqual({
+          ok: false,
+          error: expect.any(Error)
+        });
+    });
   });
 
 
-  it("saveメソッドの失敗はハンドリングできる", async () => {
-    const service = new ProductService(dbAdaptor);
+  // update
 
-    const dto: Product = {
-      id: "invalid id",
-      priority: "P1",
-      status: "draft"
-    };
+  describe("productPort.update", () => {
+    it("正常系が動作する", async () => {
+      const service = new ProductService(productAdaptor);
 
-    await expect(service.save(dto))
-      .resolves
-      .toEqual(expect.objectContaining({
-        ok: false,
-        error: expect.any(Error)
-      }));
+      const { createdProduct: created } = await ops.createProject(service);
+
+      const updateData: ProductWithoutId = { priority: "P0", status: "draft" };
+      await expect(service.update({ id: created.id, data: updateData }))
+        .resolves
+        .toStrictEqual({
+          ok: true,
+          data: { ...created, ...updateData }
+        });
+    });
+
+    it("adaptorの失敗はハンドリングできる", async () => {
+      const service = new ProductService(productAdaptor);
+
+      await ops.createProject(service);
+
+      const updateData: ProductWithoutId = { priority: "P0", status: "draft" };
+      await expect(service.update({ id: "6invalid-data-0000-96c3-ea8b186ef0f4", data: updateData }))
+        .resolves
+        .toStrictEqual({
+          ok: false,
+          error: expect.any(Error)
+        });
+    });
+  });
+
+
+  // delete
+
+  describe("productPort.delete", () => {
+    it("正常系が動作する", async () => {
+      const service = new ProductService(productAdaptor);
+
+      const { createdProduct: dto } = await ops.createProject(service);
+
+      await expect(service.delete(dto.id)).resolves.toStrictEqual({
+        ok: true,
+        data: undefined
+      });
+    });
+  });
+
+
+  // getMany
+
+  describe("productPort.getMany", () => {
+    it("正常系が動作する", async () => {
+      const service = new ProductService(productAdaptor);
+
+      const { createdProduct } = await ops.createProject(service);
+
+      await expect(service.getMany())
+        .resolves
+        .toStrictEqual({
+          ok: true,
+          data: [
+            createdProduct
+          ]
+        });
+    });
   });
 })
