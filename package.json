@@ -1,6 +1,15 @@
 {
+  "workspaces": {
+    "packages": ["./packages/*"]
+  },
   "dependencies": {
     "typescript": "^6.0.2",
     "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "vitest": "^4.1.2"
+  },
+  "scripts": {
+    "test:core": "npm run test -w packages/core"
   }
 }
