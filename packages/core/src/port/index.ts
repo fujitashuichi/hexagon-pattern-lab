@@ -1,1 +1,1 @@
-export * from "./productPort.js"
+export * as Product from "./productPort.js"
