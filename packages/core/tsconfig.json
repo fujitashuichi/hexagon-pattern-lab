@@ -7,6 +7,8 @@
     "rootDir": "./src",
     "outDir": "./dist",
 
+    "composite": true,
+
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",

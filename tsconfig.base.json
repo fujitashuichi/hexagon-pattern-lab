@@ -1,15 +1,14 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
-  "extends": ["../../tsconfig.base.json"],
-  "main": "./dist/index.ts",
-  "type": "./src/index.ts",
-  "references": [
-    { "path": "../core/" }
-  ],
   "compilerOptions": {
+    "paths": {
+      "@app/core": ["./packages/core/src/index.ts"]
+    },
+
+    /*
     // File Layout
-    "rootDir": "./src",
-    "outDir": "./dist",
+    // "rootDir": "./src",
+    // "outDir": "./dist",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -46,5 +45,6 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
+    */
   }
 }

@@ -1,13 +1,15 @@
 {
-  "name": "core",
+  "name": "@app/core",
   "version": "1.0.0",
   "description": "",
   "license": "ISC",
   "author": "",
   "type": "module",
-  "main": "index.js",
+  "main": "./dist/index.js",
+  "types": "./src/index.ts",
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "build": "npx tsc --watch"
   },
   "devDependencies": {
     "@types/node": "^25.5.0"
