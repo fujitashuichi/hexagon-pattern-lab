@@ -1,6 +1,8 @@
 {
   "workspaces": {
-    "packages": ["./packages/*"]
+    "packages": [
+      "./packages/*"
+    ]
   },
   "dependencies": {
     "@app/core": "*",

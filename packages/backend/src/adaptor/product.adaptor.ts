@@ -1,61 +1,76 @@
-import { Domain } from "@app/core"
 import { Port } from "@app/core"
 
 
-const dummy: Domain.Product = {
-  id: crypto.randomUUID(),
-  priority: "P0",
-  status: "reviewed"
+const errorHandler = (err: unknown): {
+  ok: false,
+  error: Error
+} => {
+  if (err instanceof Error) {
+    return {
+      ok: false,
+      error: err,
+    }
+  }
+  return {
+    ok: false,
+    error: new Error("unknown error")
+  }
 }
 
 
 export const productAdaptor: Port.Product.IProductPort = {
   async create(dto) {
-    if (!dto) {
-      return {
-        ok: false,
-        error: new Error("")
-      }
-    }
+    try {
+      const id = crypto.randomUUID();
 
-    return {
-      ok: true,
-      data: dummy
+      return {
+        ok: true,
+        data: { id, ...dto },
+      }
+    } catch (err) {
+      return errorHandler(err);
     }
   },
 
   async update({ id, data }) {
-    if (!id || !data) {
-      return {
-        ok: false,
-        error: new Error("")
-      }
-    }
+    try {
+      const updated = { id, ...data };
 
-    return {
-      ok: true,
-      data: { id, ...data }
+      return {
+        ok: true,
+        data: updated
+      }
+    } catch (err) {
+      return errorHandler(err);
     }
   },
 
   async delete(id) {
-    if (!id) {
+    try {
+      console.log("product deleted: id =", id);
       return {
-        ok: false,
-        error: new Error("")
+        ok: true,
+        data: undefined,
       }
-    }
-
-    return {
-      ok: true,
-      data: undefined
+    } catch (err) {
+      return errorHandler(err)
     }
   },
 
   async getMany() {
-    return {
-      ok: true,
-      data: [ dummy ]
-    };
+    try {
+      return {
+        ok: true,
+        data: [
+          {
+            id: crypto.randomUUID(),
+            priority: "P0",
+            status: "approved"
+          }
+        ],
+      }
+    } catch (err) {
+      return errorHandler(err);
+    }
   },
 }
