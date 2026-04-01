@@ -1,19 +1,20 @@
 import { Port } from "@app/core"
+import { createProtocolError, type ProtocolError } from "@app/core/src/domain/index.js"
 
 
 const errorHandler = (err: unknown): {
   ok: false,
-  error: Error
+  error: ProtocolError
 } => {
   if (err instanceof Error) {
     return {
       ok: false,
-      error: err,
+      error: createProtocolError.unknown(err),
     }
   }
   return {
     ok: false,
-    error: new Error("unknown error")
+    error: createProtocolError.unknown(err)
   }
 }
 

@@ -8,6 +8,7 @@ export type ProtocolErrorCode =
   | "ERR_BAD_REQUEST"
   // ドメイン制約由来
   | "ERR_DOMAIN_VIOLATION"
+  | "ERR_UNKNOWN"
 
 
 export class ProtocolError extends Error {

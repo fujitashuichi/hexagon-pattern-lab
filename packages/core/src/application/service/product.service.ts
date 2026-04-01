@@ -1,5 +1,5 @@
+import { validateProduct, validateProductWithoutId } from "../../domain/internal/validators/product.validator.js";
 import type { Product } from "../../domain/modules/product.js";
-import { validateProduct, validateProductWithoutId } from "../../domain/validators/index.js";
 import type { IProductPort } from "../../port/productPort.js";
 import type { ApiResult, ProductWithoutId } from "../../port/types.js";
 

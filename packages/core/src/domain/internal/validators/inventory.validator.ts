@@ -1,5 +1,5 @@
-import { createProtocolError } from "../lib/errorContext.js";
-import { InventoryStateSchema, type InventoryState } from "../types/inventory.types.js";
+import { createProtocolError } from "../../lib/errorContext.js";
+import { InventoryStateSchema, type InventoryState } from "../../types/inventory.types.js";
 import type { ValidateResult } from "./types.js";
 
 

@@ -1,5 +1,9 @@
-import { createProtocolError } from "../lib/errorContext.js";
-import { type DiscountedPriceRequest, DiscountedPriceRequestSchema, type DiscountedPriceResponse, DiscountedPriceResponseSchema, type MonetaryAmount, MonetaryAmountSchema } from "../types/price.types.js"
+import { createProtocolError } from "../../lib/errorContext.js";
+import {
+  type MonetaryAmount, MonetaryAmountSchema,
+  type DiscountedPriceRequest, DiscountedPriceRequestSchema,
+  type DiscountedPriceResponse, DiscountedPriceResponseSchema
+} from "../../types/price.types.js";
 import type { ValidateResult } from "./types.js";
 
 

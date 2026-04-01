@@ -1,0 +1,1 @@
+export { ProtocolError } from "./protocol.types.js"

@@ -20,6 +20,14 @@ const errorContextManager = {
       );
       return errorId;
     },
+    unknown: (err: unknown): UUID => {
+      const errorId = crypto.randomUUID();
+      console.error(
+        `[ProtocolError]:${errorId}`,
+        err
+      );
+      return errorId;
+    }
   }
 }
 
@@ -33,5 +41,10 @@ export const createProtocolError = {
   monetary: (message: string): ProtocolError => {
     const errorId = errorContextManager.logAndCreateId.monetary(message);
     return new ProtocolError(errorId, "ERR_DOMAIN_VIOLATION");
+  },
+
+  unknown: (err: unknown): ProtocolError => {
+    const errorId = errorContextManager.logAndCreateId.unknown(err);
+    return new ProtocolError(errorId, "ERR_UNKNOWN");
   }
 }

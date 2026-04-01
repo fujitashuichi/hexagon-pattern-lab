@@ -1,4 +1,4 @@
-import type { ProtocolError } from "../types/errors/protocol.types.js";
+import type { ProtocolError } from "../../types/index.js";
 
 export type ValidateResult<T> =
   | { ok: false, error: ProtocolError }
