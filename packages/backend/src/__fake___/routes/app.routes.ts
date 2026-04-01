@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-const createAppRouter = () => {
+export const createAppRouter = () => {
   const router = Router();
 
   router.get("/", (_req, res) => {
