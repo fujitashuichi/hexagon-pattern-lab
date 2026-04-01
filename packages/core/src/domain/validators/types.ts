@@ -1,3 +1,5 @@
+import type { ProtocolError } from "../types/errors/protocol.types.js";
+
 export type ValidateResult<T> =
-  | { ok: false, error: Error }
+  | { ok: false, error: ProtocolError }
   | { ok: true, data: T }

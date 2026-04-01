@@ -1,3 +1,4 @@
+import { createProtocolError } from "../lib/errorContext.js";
 import { type DiscountedPriceRequest, DiscountedPriceRequestSchema, type DiscountedPriceResponse, DiscountedPriceResponseSchema, type MonetaryAmount, MonetaryAmountSchema } from "../types/price.types.js"
 import type { ValidateResult } from "./types.js";
 
@@ -13,7 +14,7 @@ export const validateMonetaryAmount = ({
   if (!parsed.success) {
     return {
       ok: false,
-      error: parsed.error
+      error: createProtocolError.zod(parsed.error)
     }
   }
 
@@ -40,7 +41,7 @@ export const validateDiscountedPriceRequest = ({
   if (!parsed.success) {
     return {
       ok: false,
-      error: parsed.error
+      error: createProtocolError.zod(parsed.error)
     }
   }
 
@@ -50,7 +51,7 @@ export const validateDiscountedPriceRequest = ({
   if (discountedPrice < base * 0.5) {
     return {
       ok: false,
-      error: new Error("割引後の価格が元の価格の 50% を下回るため、この割引は適用できません")
+      error: createProtocolError.monetary("割引後の価格が元の価格の 50% を下回るため、この割引は適用できません")
     }
   }
 
@@ -74,7 +75,7 @@ export const validateDiscountedPriceResponse = ({
   if (!parsed.success) {
     return {
       ok: false,
-      error: parsed.error
+      error: createProtocolError.zod(parsed.error)
     }
   }
 

@@ -1,4 +1,5 @@
 import { ProductWithoutIdSchema, type ProductWithoutId } from "../../port/types.js";
+import { createProtocolError } from "../lib/errorContext.js";
 import { ProductSchema, type Product } from "../modules/product.js";
 import type { ValidateResult } from "./types.js";
 
@@ -11,7 +12,7 @@ export const validateProduct = (
   if (!parsed.success) {
     return {
       ok: false,
-      error: parsed.error
+      error: createProtocolError.zod(parsed.error)
     }
   }
 
@@ -29,7 +30,7 @@ export const validateProductWithoutId = (
   if (!parsed.success) {
     return {
       ok: false,
-      error: parsed.error
+      error: createProtocolError.zod(parsed.error)
     }
   }
 

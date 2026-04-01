@@ -1,6 +1,9 @@
+import z from "zod";
+import { createProtocolError } from "../domain/lib/errorContext.js";
 import type { Product } from "../domain/modules/product.js";
 import type { IProductPort } from "../port/productPort.js";
 import { mockDb } from "./db.mock.js";
+import { zodErrorMock } from "./error.mock.js";
 
 const db = mockDb;
 
@@ -17,7 +20,7 @@ export const productAdaptorMock: IProductPort = {
     if (!db.getAll().find(item => item.id === dto.id)) {
       return {
         ok: false,
-        error: new Error("Couldn't update product: Product not found")
+        error: createProtocolError.zod(zodErrorMock)
       }
     };
 
