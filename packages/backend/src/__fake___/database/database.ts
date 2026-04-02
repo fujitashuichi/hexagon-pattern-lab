@@ -28,7 +28,7 @@ class ProductDbQuery {
 
   async deleteMany(id_list: Domain.Product["id"][]): Promise<void> {
     const products = await this.findAll();
-    const remain = Object.keys(products).filter(key => !id_list.includes(key))
+    const remain = products.filter(product => !id_list.includes(product.id))
 
     await writeFile(this.dbPath, JSON.stringify(remain, null, 2));
   }
