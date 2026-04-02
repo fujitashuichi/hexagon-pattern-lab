@@ -8,6 +8,9 @@ export type ProtocolErrorCode =
   | "ERR_BAD_REQUEST"
   // ドメイン制約由来
   | "ERR_DOMAIN_VIOLATION"
+  // システム系など
+  | "ERR_INTERNAL"
+  // 不明
   | "ERR_UNKNOWN"
 
 

@@ -1,5 +1,6 @@
 import { Port } from "@app/core"
 import { createProtocolError, type ProtocolError } from "@app/core/src/domain/index.js"
+import { db } from "../database/database.js"
 
 
 const errorHandler = (err: unknown): {
@@ -19,14 +20,15 @@ const errorHandler = (err: unknown): {
 }
 
 
-export const productAdaptor: Port.Product.IProductPort = {
+export const productAdaptor: Port.ProductPort.IProductPort = {
   async create(dto) {
     try {
       const id = crypto.randomUUID();
 
+      const result = await db.product.save({ id, ...dto });
       return {
         ok: true,
-        data: { id, ...dto },
+        data: result,
       }
     } catch (err) {
       return errorHandler(err);
@@ -35,11 +37,10 @@ export const productAdaptor: Port.Product.IProductPort = {
 
   async update({ id, data }) {
     try {
-      const updated = { id, ...data };
-
+      const result = await db.product.update(id, data);
       return {
         ok: true,
-        data: updated
+        data: result
       }
     } catch (err) {
       return errorHandler(err);
@@ -48,6 +49,7 @@ export const productAdaptor: Port.Product.IProductPort = {
 
   async delete(id) {
     try {
+      await db.product.deleteMany([ id ]);
       console.log("product deleted: id =", id);
       return {
         ok: true,
@@ -60,15 +62,10 @@ export const productAdaptor: Port.Product.IProductPort = {
 
   async getMany() {
     try {
+      const result = await db.product.findAll();
       return {
         ok: true,
-        data: [
-          {
-            id: crypto.randomUUID(),
-            priority: "P0",
-            status: "approved"
-          }
-        ],
+        data: result,
       }
     } catch (err) {
       return errorHandler(err);
