@@ -6,7 +6,7 @@ import path from "node:path";
 
 
 class ProductDbQuery {
-  private readonly dbPath = path.resolve(__filename, "./data.json");
+  private readonly dbPath = path.resolve(import.meta.dirname!, "./data.json");
 
   async save(data: Domain.Product): Promise<Domain.Product> {
     const products = await this.findAll();
